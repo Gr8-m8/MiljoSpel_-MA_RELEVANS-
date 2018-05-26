@@ -1,0 +1,18 @@
+﻿body {
+    background-color:forestgreen;
+}
+
+#board{
+    background-color:lawngreen;
+}
+
+button{
+    border: 1px solid black;
+    border-radius: 12px;
+    height: 36px;
+    width: 64px;
+}
+
+button:hover {
+    background-color:dimgrey;
+}
