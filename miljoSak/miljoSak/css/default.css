@@ -1,6 +1,7 @@
 ﻿body {
     background-color:forestgreen;
     padding:2%;
+    height:1000px;
 }
 
 #brd{
@@ -51,7 +52,7 @@ tr{
     float:left;
     text-align:center;
     border-radius:12px;
-    margin-left:3%;
+    //margin-left:3%;
 }
 
 .playCardAnswer{
@@ -65,11 +66,13 @@ tr{
 
 .playCardInput{
     background-color:darkolivegreen;
-    float:left;
-    margin-left:1%;
-    margin-right:1%;
+    float:right;
     height:301px;
     width:1%;
+    margin-top:-301px;
+    margin-left:50%;
+    margin-right:4%;
+
 }
 
 .playCardInput:hover{

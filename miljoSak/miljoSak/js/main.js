@@ -59,6 +59,10 @@ class Board {
 	BoardSetUpMax() {
 		return "<div id='cardMAX' class='playCard'><img src='images/cardframe.jpg'></img></div>";
 	}
+
+	Debugfunc() {
+		console.log(this.tableTop);
+	}
 }
 
 class Card {
@@ -72,11 +76,12 @@ class Card {
 		this.answer = setAnswer;
 	}
 
-	Display(id) {
-		return "<div id='card" + id + "' class='playCard'><img class='playCardImg' src='" + this.img + "'><button class='playCardInput'></button></img><p id='cardAnswer" + id + "' class='playCardAnswer'></p></div>";
+	Display(id = this.boardId) {
+		return "<div id='card" + id + "' class='playCard'><img class='playCardImg' src='" + this.img + "'></img><p id='cardAnswer" + id + "' class='playCardAnswer'></p></div>";
 	}
 
 	ShowAnswer() {
+		document.getElementById("card" + this.boardId).innerHTML += "<button class='playCardInput'></button>";
 		document.getElementById("cardAnswer" + this.boardId).innerHTML = this.answer + "kg-CO";
 	}
 }
