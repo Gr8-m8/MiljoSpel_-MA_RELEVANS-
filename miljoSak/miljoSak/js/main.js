@@ -18,11 +18,15 @@
 		}
 
 		this.board.tableTop.push(this.deck.cards[Math.round(Math.random() * (this.deck.cards.length - 1))]);
-		this.board.FUD();
+		this.board.Table();
 
 		this.deck.cards[Math.round(Math.random() * (this.deck.cards.length - 1))];
 
 		this.deck.DrawCard();
+	}
+
+	NextPlayerTurn() {
+
 	}
 }
 
@@ -40,24 +44,26 @@ class Board {
 		this.tableTop = [];
 	}
 
-	FUD() {
-		//this.tableTop.
+	Table() {
 
 		document.getElementById("brd").innerHTML = this.BoardSetUpMin();
+		this.tableTop = [new Card(0, "minstaVärde.png")];
 
-		for (var i = 0; i < this.tableTop.length; i++) {
+		for (var i = 1; i < this.tableTop.length; i++) {
 			document.getElementById("brd").innerHTML += this.tableTop[i].Display(i);
+			this.tableTop[i].ShowAnswer();
 		}
 
 		document.getElementById("brd").innerHTML += this.BoardSetUpMax();
+		this.tableTop[this.tableTop.length] = new Card(Infinity, "StörstaVärde.png");
 	}
 
 	BoardSetUpMin() {
-		return "<div id='cardMIN' class='playCard'><img class='playCardImg' src='images/cardframe.jpg'></img><button class='playCardInput'></button></div>";
+		return "<div id='cardMIN' class='playCard'><img class='playCardImg' src='images/minstaVärde.png'></img><button class='playCardInput'></button></div>";
 	}
 
 	BoardSetUpMax() {
-		return "<div id='cardMAX' class='playCard'><img src='images/cardframe.jpg'></img></div>";
+		return "<div id='cardMAX' class='playCard'><img class='playCardImg' src='images/StörstaVärde.png'></img></div>";
 	}
 
 	Debugfunc() {
@@ -66,13 +72,11 @@ class Board {
 }
 
 class Card {
-	constructor(setAnswer, setText, hint = "") {
+	constructor(setAnswer, setImg = "cardframe.jpg") {
 		this.deckId;
 		this.boardId;
 
-		this.text = setText;
-		this.hint = "";
-		this.img = "images/cardframe.jpg";
+		this.img = "images/" + setImg;
 		this.answer = setAnswer;
 	}
 
@@ -96,8 +100,8 @@ class Deck {
 	Init() {
 		this.cards =
 			[
-			new Card(20, "Import av x från x"),
-			new Card(40, "Åka bensin bil till x, x anlat gånger per år")
+			new Card(20),
+			new Card(40)
 			];
 
 		for (var i = 0; i < this.cards.length; i++) {

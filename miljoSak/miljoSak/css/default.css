@@ -62,6 +62,8 @@ tr{
 
 .playCardImg{
     float:left;
+    width:226px;
+    height:301px;
 }
 
 .playCardInput{
