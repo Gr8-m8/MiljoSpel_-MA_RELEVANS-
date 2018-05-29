@@ -2,6 +2,7 @@
 	constructor() {
 		this.playTo;
 		this.playerNum;
+		this.playerTurn;
 		this.players = [];
 
 		this.board = new Board();
@@ -85,7 +86,7 @@ class Card {
 	}
 
 	ShowAnswer() {
-		document.getElementById("card" + this.boardId).innerHTML += "<button class='playCardInput'></button>";
+		document.getElementById("card" + this.boardId).innerHTML += "<button class='playCardInput' onClick='CompareCards()'></button>";
 		document.getElementById("cardAnswer" + this.boardId).innerHTML = this.answer + "kg-CO";
 	}
 }
@@ -131,8 +132,8 @@ window.onload = function ()
 	gc.NewGame(3, 2);
 }
 
-function CompareCards(minCard, maxCard, card) {
-	if (card > minCard && card < maxCard) {
+function CompareCards(num) {
+	if (num > gc.board.tableTop[num] && card < gc.board.tableTop[num +1]) {
 		console.log("Correct");
 	}
 }
