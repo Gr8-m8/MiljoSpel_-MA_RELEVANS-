@@ -58,7 +58,7 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="images\cardframe.jpg" />
+    <Content Include="images\cardframe.png" />
     <Content Include="images\miljö_bilTillJobbet.png" />
     <Content Include="images\miljö_FiskFrånNorge.png" />
     <Content Include="images\minstaVärde.png" />

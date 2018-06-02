@@ -67,7 +67,7 @@ tr{
 }
 
 .playCardInput{
-    background-color:darkolivegreen;
+    background-color:olivedrab;
     float:right;
     height:301px;
     width:1%;
@@ -78,5 +78,5 @@ tr{
 }
 
 .playCardInput:hover{
-    background-color:olivedrab;
+    background-color:darkolivegreen;
 }
