@@ -18,12 +18,11 @@
 			this.players.push(new Player(i));
 		}
 
-		//this.board.tableTop.push(this.deck.cards[Math.round(Math.random() * (this.deck.cards.length - 1))]);
-		this.board.Table();
+		this.board.currentCard = this.deck.DrawCard();
 
-		//this.deck.cards[Math.round(Math.random() * (this.deck.cards.length - 1))];
-
-		this.deck.DrawCard();
+		this.board.PushCard(this.deck.DrawCard(), 1);
+		this.board.FUD();
+		
 	}
 
 	NextPlayerTurn() {
@@ -42,56 +41,39 @@ class Player {
 
 class Board {
 	constructor() {
-		this.tableTop = [];
+		this.tableTop = [new Card(0, "minstaVärde"), new Card(Infinity, "StörstaVärde")];
 		this.currentCard = new Card(20);
 	}
 
-	Table() {
+	PushCard(card, pos) {
+		this.tableTop.splice(pos, 0, card);
+	}
 
-		document.getElementById("brd").innerHTML = this.BoardSetUpMin();
-		this.tableTop = [new Card(0, "minstaVärde")];
-		this.tableTop[0].boardId = 0;
+	FUD() {
+		document.getElementById("dck").innerHTML = this.currentCard.Display();
 
-		for (var i = 1; i < this.tableTop.length; i++) {
-			document.getElementById("brd").innerHTML += this.tableTop[i].Display(i);
-			this.tableTop[i].ShowAnswer();
+		document.getElementById("brd").innerHTML = "";
+
+		for (var i = 0; i < this.tableTop.length; i++) {
+			document.getElementById("brd").innerHTML += this.tableTop[i].Display(i, i < this.tableTop.length -1);
 		}
-
-		document.getElementById("brd").innerHTML += this.BoardSetUpMax();
-		this.tableTop.push(new Card(Infinity, "StörstaVärde"));
-		this.tableTop[this.tableTop.length -1].boardId = this.tableTop.length - 1;
-
-	}
-
-	BoardSetUpMin() {
-		return "<div id='cardMIN' class='playCard'><img class='playCardImg' src='images/minstaVärde.png'></img><button class='playCardInput' onclick='CompareCards(0)'></button></div>";
-	}
-
-	BoardSetUpMax() {
-		return "<div id='cardMAX' class='playCard'><img class='playCardImg' src='images/StörstaVärde.png'></img></div>";
-	}
-
-	Debugfunc() {
-		console.log(this.tableTop);
 	}
 }
 
 class Card {
-	constructor(setAnswer, setImg = "cardframe.jpg") {
-		this.deckId;
-		this.boardId;
+	constructor(setAnswer, setImg = "cardframe") {
+		this.cardId;
 
 		this.img = "images/" + setImg + ".png";
 		this.answer = setAnswer;
 	}
 
-	Display(id = this.boardId) {
-		return "<div id='card" + id + "' class='playCard'><img class='playCardImg' src='" + this.img + "'></img><p id='cardAnswer" + id + "' class='playCardAnswer'></p></div>";
-	}
-
-	ShowAnswer() {
-		document.getElementById("card" + this.boardId).innerHTML += "<button class='playCardInput' onclick='CompareCards(" + this.boardId + ")'></button>";
-		document.getElementById("cardAnswer" + this.boardId).innerHTML = this.answer + "kg-CO2";
+	Display(id = undefined, onBoard = false) {
+		if (!onBoard) {
+			return "<div class='playCard'><img class='playCardImg' src='" + this.img + "'></img></div>";
+		} else {
+			return "<div class='playCard'><img class='playCardImg' src='" + this.img + "'></img><button class='playCardInput' onclick='CompareCards(" + id + ")'></button><p class='playCardAnswer'>" + this.answer + "kg-CO2</p></div>";
+		}
 	}
 }
 
@@ -105,8 +87,13 @@ class Deck {
 	Init() {
 		this.cards =
 			[
-			new Card(20),
-			new Card(40)
+			new Card(10, "miljö_bilTillJobbet"),
+			new Card(10, "miljö_FiskFrånNorge"),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10)
 			];
 
 		for (var i = 0; i < this.cards.length; i++) {
@@ -115,16 +102,7 @@ class Deck {
 	}
 
 	DrawCard() {
-		var unUsedId = Math.round(Math.random() * (this.cards.length - 1));
-
-		for (var i = 0; i < gc.board.tableTop.length; i++) {
-			if (unUsedId != gc.board.tableTop[i].deckId) {
-				gc.board.tableTop.currentCard = gc.deck.cards[unUsedId];
-				document.getElementById("dck").innerHTML = this.cards[unUsedId].Display();
-			}
-		}
-
-		
+		return this.cards.splice(Math.floor(Math.random() * this.cards.length), 1)[0];
 	}
 }
 
@@ -139,21 +117,13 @@ window.onload = function ()
 
 function CompareCards(num) {
 	if (gc.board.currentCard.answer >= gc.board.tableTop[num].answer && gc.board.currentCard.answer <= gc.board.tableTop[num + 1].answer) {
-
-		console.log(gc.board.tableTop.length - 1 + "||" + gc.board.tableTop[num + 1].boardId);
-
-		for (var i = gc.board.tableTop.length - 1; i >= gc.board.tableTop[num +1].boardId; i--) {
-			console.log(i);
-			gc.board.tableTop[i] = gc.board.tableTop[i + 1];
-			//gc.board.tableTop[i].boardId = i;
-		}
-
-		gc.board.tableTop[num + 1] = gc.board.currentCard;
-		gc.board.Table();
-		
+		console.log("Correct");
+		gc.board.PushCard(gc.board.currentCard, num + 1);
 	} else {
 		console.log("Wrong");
 	}
 
-	gc.deck.DrawCard();
+	gc.board.currentCard = gc.deck.DrawCard();
+	console.log(gc.board.currentCard);
+	gc.board.FUD();
 }

@@ -65,6 +65,7 @@
     <Content Include="images\StörstaVärde.png" />
     <Content Include="index.html" />
     <Content Include="js\main.js" />
+    <Content Include="js\old.js" />
     <Content Include="css\default.css" />
     <None Include="miljoSak_TemporaryKey.pfx" />
   </ItemGroup>

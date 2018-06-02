@@ -1,17 +1,18 @@
 ﻿body {
-    background-color:forestgreen;
-    padding:2%;
-    height:1000px;
+    background-color: forestgreen;
+    padding: 2%;
+    height: 1000px;
+    white-space: nowrap;
 }
 
 #brd{
     background-color:lawngreen;
-    padding:1%;
-    height:346px;
+    height:380px;
+    padding:2%;
     overflow-x: scroll;
     overflow-y: hidden;
     border-radius:12px;
-    //float:left;
+    border: 3px solid red;
 }
 
 #dck {
@@ -21,10 +22,8 @@
     width:226px;
     overflow: hidden; 
     border-radius: 12px;
-    float:left;
+    //float:left;
     margin-top:1%;
-    //margin-top:400px;
-    //left:0px;
 }
 
 #plr{
@@ -48,33 +47,31 @@ tr{
     padding-left:2%;
 }
 
-.playCard{
-    float:left;
-    text-align:center;
-    border-radius:12px;
-    //margin-left:3%;
+.playCard {
+    text-align: center;
+    border-radius: 12px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .playCardAnswer{
     font-size:28px;
-    margin-top:4px;
 }
 
-.playCardImg{
-    float:left;
-    width:226px;
-    height:301px;
+.playCardImg {
+    width: 226px;
+    height: 301px;
+    vertical-align: top;
+    margin-right: 10px;
+    
 }
 
-.playCardInput{
-    background-color:olivedrab;
-    float:right;
-    height:301px;
-    width:1%;
-    margin-top:-301px;
-    margin-left:50%;
-    margin-right:4%;
-
+.playCardInput {
+    background-color: olivedrab;
+    height: 301px;
+    width: 1%;
+    vertical-align: top;
+    margin-right:10px;
 }
 
 .playCardInput:hover{
