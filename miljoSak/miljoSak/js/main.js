@@ -1,8 +1,9 @@
 ﻿class GameController {
 	constructor() {
 		this.playTo;
-		this.playerNum;
-		this.playerTurn;
+
+		this.playerNum = 0;
+		this.playerTurn = 0;
 		this.players = [];
 
 		this.board = new Board();
@@ -14,8 +15,8 @@
 		this.playerNum = setPlayers;
 
 		this.players = [];
-		for (var i = 0; i < this.playerNum.length; i++) {
-			this.players.push(new Player(i));
+		for (var i = 0; i < this.playerNum; i++) {
+			this.players.push(new Player());
 		}
 
 		this.board.currentCard = this.deck.DrawCard();
@@ -26,16 +27,19 @@
 	}
 
 	NextPlayerTurn() {
+		this.playerTurn += 1;
+		if (this.playerTurn >= this.playerNum) {
+			this.playerTurn = 0;
+		}
 
+		document.getElementById("plrTrn").innerHTML = "Player: " + (this.playerTurn + 1);
+		document.getElementById("plrPnt").innerHTML = "Score: " + this.players[this.playerTurn].points + "/" + this.playTo;
 	}
 }
 
 class Player {
-	constructor(setId) {
-		this.indexId;
-		this.points;
-
-		this.card;
+	constructor() {
+		this.points = 0;
 	}
 }
 
@@ -102,7 +106,11 @@ class Deck {
 	}
 
 	DrawCard() {
-		return this.cards.splice(Math.floor(Math.random() * this.cards.length), 1)[0];
+		if (this.cards.length != 0) {
+			return this.cards.splice(Math.floor(Math.random() * this.cards.length), 1)[0];
+		} else {
+			return new Card(Infinity, "minstaVärde")
+		}
 	}
 }
 
@@ -119,6 +127,12 @@ function CompareCards(num) {
 	if (gc.board.currentCard.answer >= gc.board.tableTop[num].answer && gc.board.currentCard.answer <= gc.board.tableTop[num + 1].answer) {
 		console.log("Correct");
 		gc.board.PushCard(gc.board.currentCard, num + 1);
+
+		gc.players[gc.playerTurn].points += 1;
+
+		if (gc.players[gc.playerTurn].points == gc.playTo) {
+			console.log(gc.playerTurn + " WON");
+		}
 	} else {
 		console.log("Wrong");
 	}
@@ -126,4 +140,5 @@ function CompareCards(num) {
 	gc.board.currentCard = gc.deck.DrawCard();
 	console.log(gc.board.currentCard);
 	gc.board.FUD();
+	gc.NextPlayerTurn();
 }
