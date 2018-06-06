@@ -1,8 +1,6 @@
 ﻿body {
     background-color: forestgreen;
     padding: 2%;
-    height: 1000px;
-    white-space: nowrap;
 }
 
 #brd{
@@ -12,18 +10,18 @@
     overflow-x: scroll;
     overflow-y: hidden;
     border-radius:12px;
-    border: 3px solid red;
+    border: 3px solid brown;
 }
 
 #dck {
     background-color: lawngreen;
     padding: 1%;
     height: 301px;
-    width:226px;
-    overflow: hidden; 
+    width: 226px;
+    overflow: hidden;
     border-radius: 12px;
-    //float:left;
-    margin-top:1%;
+    /*float:left;*/
+    margin-top: 1%;
 }
 
 #plr{
@@ -32,19 +30,19 @@
     border: 1px solid black;
 }
 
-button{
+button {
+    background-color: olivedrab;
     border: 1px solid black;
     border-radius: 12px;
-    height: 36px;
-    width: 64px;
+    padding:9px;
 }
 
 button:hover {
-    background-color:dimgrey;
+    background-color: darkolivegreen;
 }
 
-tr{
-    padding-left:2%;
+th, td{
+    border-right:1px solid brown;
 }
 
 .playCard {
@@ -67,13 +65,8 @@ tr{
 }
 
 .playCardInput {
-    background-color: olivedrab;
     height: 301px;
     width: 1%;
     vertical-align: top;
     margin-right:10px;
-}
-
-.playCardInput:hover{
-    background-color:darkolivegreen;
 }

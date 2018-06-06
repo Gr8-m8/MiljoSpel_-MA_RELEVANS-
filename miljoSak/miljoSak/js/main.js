@@ -10,9 +10,9 @@
 		this.deck = new Deck();
 	}
 
-	NewGame(setPlayTo, setPlayers) {
-		this.playTo = setPlayTo;
-		this.playerNum = setPlayers;
+	NewGame(setPlayTo = document.getElementById("inPT").value, setPlayers = document.getElementById("inNOP").value) {
+		this.playTo = Math.min(1, setPlayTo);
+		this.playerNum = Math.min(1, setPlayers);
 
 		this.players = [];
 		for (var i = 0; i < this.playerNum; i++) {
@@ -56,9 +56,9 @@ class Board {
 	FUD() {
 		document.getElementById("dck").innerHTML = this.currentCard.Display();
 
-		document.getElementById("brd").innerHTML = "";
+		document.getElementById("brd").innerHTML = this.tableTop[0].DisplayStart();
 
-		for (var i = 0; i < this.tableTop.length; i++) {
+		for (var i = 1; i < this.tableTop.length; i++) {
 			document.getElementById("brd").innerHTML += this.tableTop[i].Display(i, i < this.tableTop.length -1);
 		}
 	}
@@ -76,8 +76,12 @@ class Card {
 		if (!onBoard) {
 			return "<div class='playCard'><img class='playCardImg' src='" + this.img + "'></img></div>";
 		} else {
-			return "<div class='playCard'><img class='playCardImg' src='" + this.img + "'></img><button class='playCardInput' onclick='CompareCards(" + id + ")'></button><p class='playCardAnswer'>" + this.answer + "kg-CO2</p></div>";
+			return "<div class='playCard'><img class='playCardImg' src='" + this.img + "'></img><button class='playCardInput' onclick='CompareCards(" + id + ")'></button><p class='playCardAnswer'>" + this.answer + "KG-CO2</p></div>";
 		}
+	}
+
+	DisplayStart() {
+		return "<div class='playCard'><img class='playCardImg' src='" + this.img + "'></img><button class='playCardInput' onclick='CompareCards(0)'></button></div>";
 	}
 }
 
@@ -120,7 +124,7 @@ var gc = new GameController;
 
 window.onload = function ()
 {
-	gc.NewGame(3, 2);
+	NewGame(false);
 }
 
 function CompareCards(num) {
@@ -141,4 +145,20 @@ function CompareCards(num) {
 	console.log(gc.board.currentCard);
 	gc.board.FUD();
 	gc.NextPlayerTurn();
+}
+
+function NewGame(ongoingGame = true) {
+	document.getElementById("brd").innerHTML = "<input id='inNOP' type='number' placeholder='Antal Spelare' /><input id='inPT' type='number' placeholder='Spela Till' /><button onclick='gc.NewGame()'>Starta Spel</button>";
+
+	if (ongoingGame) {
+		document.getElementById("newGame").innerHTML = "<button onclick='ResumeGame()'>Återgå Till Spel</button>";
+	} else {
+		document.getElementById("newGame").innerHTML = "";
+	}
+}
+
+function ResumeGame() {
+	document.getElementById("newGame").innerHTML = "<button onclick='NewGame()'>Nytt Spel</button>";
+
+	gc.board.FUD(); 
 }
