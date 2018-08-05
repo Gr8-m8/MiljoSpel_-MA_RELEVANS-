@@ -30,6 +30,37 @@
     border: 1px solid black;
 }
 
+#logger {
+    background-color: white;
+    height: 301px;
+    width: 50%;
+    float: right;
+    margin-top: -337px;
+    border: 1px solid black;
+    padding:0px;
+}
+
+#chat{
+    //padding: 1%;
+    overflow-y:scroll;
+    height:280px;
+    margin-top:0px;
+}
+
+.loggerInput {
+    width: 90%;
+    border: 1px solid black;
+    overflow: scroll;
+    float: left;
+}
+
+.loggerInputButton {
+    height: 20px;
+    width: 9%;
+    padding: 0%;
+    float: left;
+}
+
 button {
     background-color: olivedrab;
     border: 1px solid black;

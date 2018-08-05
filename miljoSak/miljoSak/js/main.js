@@ -8,38 +8,60 @@
 
 		this.board = new Board();
 		this.deck = new Deck();
+
+		this.gameProgress;
 	}
 
 	NewGame(setPlayTo = document.getElementById("inPT").value, setPlayers = document.getElementById("inNOP").value) {
-		this.playTo = Math.min(1, setPlayTo);
-		this.playerNum = Math.min(1, setPlayers);
+		this.playTo = Math.max(1, setPlayTo);
+		this.playerNum = Math.max(1, setPlayers);
 
 		this.players = [];
 		for (var i = 0; i < this.playerNum; i++) {
-			this.players.push(new Player());
+			this.players.push(new Player(i));
 		}
 
 		this.board.currentCard = this.deck.DrawCard();
 
 		this.board.PushCard(this.deck.DrawCard(), 1);
 		this.board.FUD();
-		
+
+		ChatLog("Game Started. <br> " + this.playerNum + " players : " + this.playTo + " points. <hr><br>");
+		ChatLog("Player 1 turn.");
 	}
 
 	NextPlayerTurn() {
-		this.playerTurn += 1;
+		this.playerTurn++;
 		if (this.playerTurn >= this.playerNum) {
 			this.playerTurn = 0;
 		}
 
+		ChatLog("Player " + (this.playerTurn + 1) + " turn.");
 		document.getElementById("plrTrn").innerHTML = "Player: " + (this.playerTurn + 1);
 		document.getElementById("plrPnt").innerHTML = "Score: " + this.players[this.playerTurn].points + "/" + this.playTo;
 	}
 }
 
 class Player {
-	constructor() {
+	constructor(setId) {
+		this.id = setId;
 		this.points = 0;
+	}
+
+	AddPoints(amount = 1) {
+		this.points += amount;
+	}
+
+	Won() {
+		ChatLog("Player " + (this.id + 1) + " Won!");
+	}
+
+	CorrectCard() {
+		ChatLog("Player " + (this.id + 1) + " placed their card correctly.");
+	}
+
+	WrongCard() {
+		ChatLog("Player " + (this.id + 1) + " placed their card incorrectly.");
 	}
 }
 
@@ -101,6 +123,18 @@ class Deck {
 			new Card(10),
 			new Card(10),
 			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
+			new Card(10),
 			new Card(10)
 			];
 
@@ -129,22 +163,26 @@ window.onload = function ()
 
 function CompareCards(num) {
 	if (gc.board.currentCard.answer >= gc.board.tableTop[num].answer && gc.board.currentCard.answer <= gc.board.tableTop[num + 1].answer) {
-		console.log("Correct");
+
 		gc.board.PushCard(gc.board.currentCard, num + 1);
 
-		gc.players[gc.playerTurn].points += 1;
+		gc.players[gc.playerTurn].AddPoints();
+		gc.players[gc.playerTurn].CorrectCard();
 
-		if (gc.players[gc.playerTurn].points == gc.playTo) {
-			console.log(gc.playerTurn + " WON");
+		if (gc.players[gc.playerTurn].points >= gc.playTo) {
+			gc.players[gc.playerTurn].Won();
 		}
 	} else {
-		console.log("Wrong");
+		gc.players[gc.playerTurn].WrongCard();
 	}
 
+	ChatLog("Player " + (gc.playerTurn + 1) + " : " + gc.players[gc.playerTurn].points + "/" + gc.playTo + " points. <hr>");
+
 	gc.board.currentCard = gc.deck.DrawCard();
-	console.log(gc.board.currentCard);
+	//console.log(gc.board.currentCard);
 	gc.board.FUD();
-	gc.NextPlayerTurn();
+
+	setTimeout(gc.NextPlayerTurn(), 5000);
 }
 
 function NewGame(ongoingGame = true) {
@@ -161,4 +199,24 @@ function ResumeGame() {
 	document.getElementById("newGame").innerHTML = "<button onclick='NewGame()'>Nytt Spel</button>";
 
 	gc.board.FUD(); 
+}
+
+function ChatLog(content = "") {
+	document.getElementById("chat").innerHTML += content + "<br>";
+	document.getElementById("chat").scrollTo(0, document.getElementById("chat").scrollHeight);
+}
+
+function EnterChat() {
+	var chatContent = document.getElementById("chatInput").value;
+	ChatLog(chatContent);
+
+	if (chatContent.startsWith("!")) {
+		ChatLog("Command");
+		if (chatContent.toUpperCase().includes("POINTS")) {
+			ChatLog("Points Added");
+			gc.players[gc.playerTurn].points++;
+		} else {
+			ChatLog("Unknonwn Command");
+		}
+	}
 }
