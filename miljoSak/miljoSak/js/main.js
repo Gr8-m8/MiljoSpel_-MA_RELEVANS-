@@ -67,7 +67,7 @@ class Player {
 
 class Board {
 	constructor() {
-		this.tableTop = [new Card(0, "minstaVärde"), new Card(Infinity, "StörstaVärde")];
+		this.tableTop = [new Card(0, "minstaVärde"), new Card(Infinity -1, "StörstaVärde")];
 		this.currentCard = new Card(20);
 	}
 
